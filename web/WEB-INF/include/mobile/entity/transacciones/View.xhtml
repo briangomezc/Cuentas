@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="TransaccionesViewPage" lazy="true">
+        <pm:header title="#{myBundle.ViewTransaccionesTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:TransaccionesListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="TransaccionesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{transaccionesController.selected != null}">
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewTransaccionesLabel_id}"/>
+                            <h:outputText value="#{transaccionesController.selected.id}" title="#{myBundle.ViewTransaccionesTitle_id}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewTransaccionesLabel_numeroDocumento}"/>
+                            <h:outputText value="#{transaccionesController.selected.numeroDocumento}" title="#{myBundle.ViewTransaccionesTitle_numeroDocumento}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewTransaccionesLabel_fecha}"/>
+                            <h:outputText value="#{transaccionesController.selected.fecha}" title="#{myBundle.ViewTransaccionesTitle_fecha}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewTransaccionesLabel_monto}"/>
+                            <h:outputText value="#{transaccionesController.selected.monto}" title="#{myBundle.ViewTransaccionesTitle_monto}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewTransaccionesLabel_tipoMovimiento}"/>
+                            <h:outputText value="#{transaccionesController.selected.tipoMovimiento}" title="#{myBundle.ViewTransaccionesTitle_tipoMovimiento}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewTransaccionesLabel_IDCliente}"/>
+                            <h:outputText value="#{transaccionesController.selected.IDCliente.id}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewTransaccionesLabel_IDTipoDocumento}"/>
+                            <h:outputText value="#{transaccionesController.selected.IDTipoDocumento.descripcion}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <h:outputText value="#{myBundle.ViewTransaccionesLabel_IDTipoMovimiento}"/>
+                            <h:outputText value="#{transaccionesController.selected.IDTipoMovimiento.id}"/>
+                        </pm:field>
+                    </p:outputPanel>
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

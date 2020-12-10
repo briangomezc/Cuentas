@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="TransaccionesCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateTransaccionesTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:TransaccionesListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="TransaccionesCreateForm">
+
+                <h:panelGroup id="display" rendered="#{transaccionesController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateTransaccionesLabel_id}" for="id" />
+                            <p:inputText id="id" value="#{transaccionesController.selected.id}" title="#{myBundle.CreateTransaccionesTitle_id}" required="true" requiredMessage="#{myBundle.CreateTransaccionesRequiredMessage_id}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateTransaccionesLabel_numeroDocumento}" for="numeroDocumento" />
+                            <p:inputText id="numeroDocumento" value="#{transaccionesController.selected.numeroDocumento}" title="#{myBundle.CreateTransaccionesTitle_numeroDocumento}" required="true" requiredMessage="#{myBundle.CreateTransaccionesRequiredMessage_numeroDocumento}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateTransaccionesLabel_fecha}" for="fecha" />
+                            <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{transaccionesController.selected.fecha}" title="#{myBundle.CreateTransaccionesTitle_fecha}" required="true" requiredMessage="#{myBundle.CreateTransaccionesRequiredMessage_fecha}" showOn="button"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateTransaccionesLabel_monto}" for="monto" />
+                            <p:inputText id="monto" value="#{transaccionesController.selected.monto}" title="#{myBundle.CreateTransaccionesTitle_monto}" required="true" requiredMessage="#{myBundle.CreateTransaccionesRequiredMessage_monto}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateTransaccionesLabel_tipoMovimiento}" for="tipoMovimiento" />
+                            <p:inputText id="tipoMovimiento" value="#{transaccionesController.selected.tipoMovimiento}" title="#{myBundle.CreateTransaccionesTitle_tipoMovimiento}" required="true" requiredMessage="#{myBundle.CreateTransaccionesRequiredMessage_tipoMovimiento}" size="25" maxlength="25"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateTransaccionesLabel_IDCliente}" for="IDCliente" />
+                            <p:selectOneMenu id="IDCliente" value="#{transaccionesController.selected.IDCliente}" required="true" requiredMessage="#{myBundle.CreateTransaccionesRequiredMessage_IDCliente}" converter="clienteConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{clienteController.items}"
+                                               var="IDClienteItem"
+                                               itemValue="#{IDClienteItem}"
+                                               itemLabel="#{IDClienteItem.id.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateTransaccionesLabel_IDTipoDocumento}" for="IDTipoDocumento" />
+                            <p:selectOneMenu id="IDTipoDocumento" value="#{transaccionesController.selected.IDTipoDocumento}" required="true" requiredMessage="#{myBundle.CreateTransaccionesRequiredMessage_IDTipoDocumento}" converter="tipodocumentosConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipodocumentosController.items}"
+                                               var="IDTipoDocumentoItem"
+                                               itemValue="#{IDTipoDocumentoItem}"
+                                               itemLabel="#{IDTipoDocumentoItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateTransaccionesLabel_IDTipoMovimiento}" for="IDTipoMovimiento" />
+                            <p:selectOneMenu id="IDTipoMovimiento" value="#{transaccionesController.selected.IDTipoMovimiento}" required="true" requiredMessage="#{myBundle.CreateTransaccionesRequiredMessage_IDTipoMovimiento}" converter="tipomovimientosConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipomovimientosController.items}"
+                                               var="IDTipoMovimientoItem"
+                                               itemValue="#{IDTipoMovimientoItem}"
+                                               itemLabel="#{IDTipoMovimientoItem.id.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{transaccionesController.saveNew}" value="#{myBundle.Save}" update="display,:TransaccionesListPage:TransaccionesListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:TransaccionesListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClienteCreateDlg" widgetVar="ClienteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateClienteTitle}" closeOnEscape="true">
+
+            <h:form id="ClienteCreateForm">
+
+                <h:panelGroup id="display" rendered="#{clienteController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateClienteLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{clienteController.selected.id}" title="#{myBundle.CreateClienteTitle_id}" required="true" requiredMessage="#{myBundle.CreateClienteRequiredMessage_id}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClienteLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{clienteController.selected.nombre}" title="#{myBundle.CreateClienteTitle_nombre}" required="true" requiredMessage="#{myBundle.CreateClienteRequiredMessage_nombre}" size="25" maxlength="25"/>
+
+                        <p:outputLabel value="#{myBundle.CreateClienteLabel_cedula}" for="cedula" />
+                        <p:inputText id="cedula" value="#{clienteController.selected.cedula}" title="#{myBundle.CreateClienteTitle_cedula}" required="true" requiredMessage="#{myBundle.CreateClienteRequiredMessage_cedula}" size="11" maxlength="11"><f:validator validatorId = "Validators.CedulaValidator" /> </p:inputText> 
+
+                        <p:outputLabel value="#{myBundle.CreateClienteLabel_balance}" for="balance" />
+                        <p:inputText id="balance" value="#{clienteController.selected.balance}" title="#{myBundle.CreateClienteTitle_balance}" required="true" requiredMessage="#{myBundle.CreateClienteRequiredMessage_balance}"><f:validator validatorId = "Validators.NumericValidator" /> </p:inputText> 
+
+                        <p:outputLabel value="#{myBundle.CreateClienteLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{clienteController.selected.estado}" required="true" requiredMessage="#{myBundle.CreateClienteRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clienteController.saveNew}" value="#{myBundle.Save}" update="display,:ClienteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ClienteCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ClienteCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

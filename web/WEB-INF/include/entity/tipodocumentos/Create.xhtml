@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipodocumentosCreateDlg" widgetVar="TipodocumentosCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateTipodocumentosTitle}" closeOnEscape="true">
+
+            <h:form id="TipodocumentosCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipodocumentosController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTipodocumentosLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{tipodocumentosController.selected.id}" title="#{myBundle.CreateTipodocumentosTitle_id}" required="true" requiredMessage="#{myBundle.CreateTipodocumentosRequiredMessage_id}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipodocumentosLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tipodocumentosController.selected.descripcion}" title="#{myBundle.CreateTipodocumentosTitle_descripcion}" required="true" requiredMessage="#{myBundle.CreateTipodocumentosRequiredMessage_descripcion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipodocumentosLabel_cuentaContable}" for="cuentaContable" />
+                        <p:inputText id="cuentaContable" value="#{tipodocumentosController.selected.cuentaContable}" title="#{myBundle.CreateTipodocumentosTitle_cuentaContable}" required="true" requiredMessage="#{myBundle.CreateTipodocumentosRequiredMessage_cuentaContable}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipodocumentosLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{tipodocumentosController.selected.estado}" required="true" requiredMessage="#{myBundle.CreateTipodocumentosRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipodocumentosController.saveNew}" value="#{myBundle.Save}" update="display,:TipodocumentosListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipodocumentosCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('TipodocumentosCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

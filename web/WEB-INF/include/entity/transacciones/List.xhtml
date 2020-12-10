@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="TransaccionesListForm">
+
+        <p:panel header="#{myBundle.ListTransaccionesTitle}">
+            <p:contextMenu id="TransaccionesDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('TransaccionesListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('TransaccionesListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('TransaccionesListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('TransaccionesListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.TransaccionesMenuItem_IDCliente}" icon="ui-icon-search"  actionListener="#{transaccionesController.prepareIDCliente}" update=":ClienteViewForm" oncomplete="PF('ClienteViewDialog').show()" disabled="#{empty transaccionesController.selected.IDCliente}"/>  
+                <p:menuitem value="#{myBundle.TransaccionesMenuItem_IDTipoDocumento}" icon="ui-icon-search"  actionListener="#{transaccionesController.prepareIDTipoDocumento}" update=":TipodocumentosViewForm" oncomplete="PF('TipodocumentosViewDialog').show()" disabled="#{empty transaccionesController.selected.IDTipoDocumento}"/>  
+                <p:menuitem value="#{myBundle.TransaccionesMenuItem_IDTipoMovimiento}" icon="ui-icon-search"  actionListener="#{transaccionesController.prepareIDTipoMovimiento}" update=":TipomovimientosViewForm" oncomplete="PF('TipomovimientosViewDialog').show()" disabled="#{empty transaccionesController.selected.IDTipoMovimiento}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{transaccionesController.items}"
+                         lazy="false"
+                         rowKey="#{item.id}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{transaccionesController.selected}"
+                         filteredValue="#{transaccionesController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{transaccionesController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.id}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TransaccionesDataTableContextMenu" listener="#{transaccionesController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:TransaccionesDataTableContextMenu" listener="#{transaccionesController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{transaccionesController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('TransaccionesListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.id}" filterBy="#{item.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTransaccionesTitle_id}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.id}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.numeroDocumento}" filterBy="#{item.numeroDocumento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTransaccionesTitle_numeroDocumento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.numeroDocumento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.fecha}" filterBy="#{item.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTransaccionesTitle_fecha}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.monto}" filterBy="#{item.monto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTransaccionesTitle_monto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.monto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.tipoMovimiento}" filterBy="#{item.tipoMovimiento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTransaccionesTitle_tipoMovimiento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.tipoMovimiento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.IDCliente.id}" filterBy="#{item.IDCliente.id}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListTransaccionesTitle_IDCliente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.IDCliente.id}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.IDTipoDocumento.descripcion}" filterBy="#{item.IDTipoDocumento.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListTransaccionesTitle_IDTipoDocumento}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.IDTipoDocumento.descripcion}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.IDTipoMovimiento.id}" filterBy="#{item.IDTipoMovimiento.id}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListTransaccionesTitle_IDTipoMovimiento}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.IDTipoMovimiento.id}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <h3>Exporta los datos visibles en la tabla</h3>
+ <h:commandLink>
+ <p:graphicImage name="../../../../images/Excel.jpg" />
+ <p:dataExporter type="xls" target="datalist" fileName="Almacenes" pageOnly="true"/>
+ </h:commandLink>
+ <h:commandLink>
+ <p:graphicImage name="../../../../images/pdf.jpg" />
+ <p:dataExporter type="pdf" target="datalist" fileName="Almacenes" pageOnly="true" />
+ </h:commandLink>
+ <h:commandLink>
+ <p:graphicImage name="/demo/images/csv.png" />
+ <p:dataExporter type="csv" target="datalist" fileName="Almacenes" pageOnly="true" />
+ </h:commandLink>
+ <h:commandLink>
+ <p:graphicImage name="/demo/images/xml.png" />
+ <p:dataExporter type="xml" target="datalist" fileName="Almacenes" pageOnly="true" />
+ </h:commandLink>
+            
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{transaccionesController.prepareCreate}" update=":TransaccionesCreateForm" oncomplete="PF('TransaccionesCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":TransaccionesViewForm" oncomplete="PF('TransaccionesViewDialog').show()" disabled="#{empty transaccionesController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":TransaccionesEditForm" oncomplete="PF('TransaccionesEditDialog').show()" disabled="#{empty transaccionesController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{transaccionesController.delete}" update=":growl,datalist" disabled="#{empty transaccionesController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

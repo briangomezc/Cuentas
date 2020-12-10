@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipodocumentosViewDlg" widgetVar="TipodocumentosViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewTipodocumentosTitle}" closeOnEscape="true">
+
+            <h:form id="TipodocumentosViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{tipodocumentosController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewTipodocumentosLabel_id}"/>
+                        <h:outputText value="#{tipodocumentosController.selected.id}" title="#{myBundle.ViewTipodocumentosTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipodocumentosLabel_descripcion}"/>
+                        <h:outputText value="#{tipodocumentosController.selected.descripcion}" title="#{myBundle.ViewTipodocumentosTitle_descripcion}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipodocumentosLabel_cuentaContable}"/>
+                        <h:outputText value="#{tipodocumentosController.selected.cuentaContable}" title="#{myBundle.ViewTipodocumentosTitle_cuentaContable}"/>
+
+                        <h:outputText value="#{myBundle.ViewTipodocumentosLabel_estado}"/>
+                        <p:selectBooleanCheckbox id="estado" value="#{tipodocumentosController.selected.estado}" title="#{myBundle.EditTipodocumentosTitle_estado}" required="true" requiredMessage="#{myBundle.EditTipodocumentosRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('TipodocumentosViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

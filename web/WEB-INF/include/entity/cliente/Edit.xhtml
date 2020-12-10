@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ClienteEditDlg" widgetVar="ClienteEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditClienteTitle}" closeOnEscape="true">
+
+            <h:form id="ClienteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{clienteController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditClienteLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{clienteController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{clienteController.selected.nombre}" title="#{myBundle.EditClienteTitle_nombre}" required="true" requiredMessage="#{myBundle.EditClienteRequiredMessage_nombre}" size="25" maxlength="25"/>
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_cedula}" for="cedula" />
+                        <p:inputText id="cedula" value="#{clienteController.selected.cedula}" title="#{myBundle.EditClienteTitle_cedula}" required="true" requiredMessage="#{myBundle.EditClienteRequiredMessage_cedula}" size="11" maxlength="11"><f:validator validatorId = "Validators.CedulaValidator" /> </p:inputText>
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_balance}" for="balance" />
+                        <p:inputText id="balance" value="#{clienteController.selected.balance}" title="#{myBundle.EditClienteTitle_balance}" required="true" requiredMessage="#{myBundle.EditClienteRequiredMessage_balance}"><f:validator validatorId = "Validators.NumericValidator" /> </p:inputText> 
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_estado}" for="estado" />
+                        <p:selectBooleanCheckbox id="estado" value="#{clienteController.selected.estado}" required="true" requiredMessage="#{myBundle.EditClienteRequiredMessage_estado}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clienteController.save}" value="#{myBundle.Save}" update="display,:ClienteListForm:datalist,:ClienteListForm:ClienteDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ClienteEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ClienteEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

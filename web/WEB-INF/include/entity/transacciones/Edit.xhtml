@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TransaccionesEditDlg" widgetVar="TransaccionesEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditTransaccionesTitle}" closeOnEscape="true">
+
+            <h:form id="TransaccionesEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{transaccionesController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditTransaccionesLabel_id}" for="id" />
+                        <h:outputText id="id" value="#{transaccionesController.selected.id}" />
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionesLabel_numeroDocumento}" for="numeroDocumento" />
+                        <p:inputText id="numeroDocumento" value="#{transaccionesController.selected.numeroDocumento}" title="#{myBundle.EditTransaccionesTitle_numeroDocumento}" required="true" requiredMessage="#{myBundle.EditTransaccionesRequiredMessage_numeroDocumento}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionesLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{transaccionesController.selected.fecha}" title="#{myBundle.EditTransaccionesTitle_fecha}" required="true" requiredMessage="#{myBundle.EditTransaccionesRequiredMessage_fecha}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionesLabel_monto}" for="monto" />
+                        <p:inputText id="monto" value="#{transaccionesController.selected.monto}" title="#{myBundle.EditTransaccionesTitle_monto}" required="true" requiredMessage="#{myBundle.EditTransaccionesRequiredMessage_monto}"/>
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionesLabel_tipoMovimiento}" for="tipoMovimiento" />
+                        <p:inputText id="tipoMovimiento" value="#{transaccionesController.selected.tipoMovimiento}" title="#{myBundle.EditTransaccionesTitle_tipoMovimiento}" required="true" requiredMessage="#{myBundle.EditTransaccionesRequiredMessage_tipoMovimiento}" size="25" maxlength="25"/>
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionesLabel_IDCliente}" for="IDCliente" />
+                        <p:selectOneMenu id="IDCliente" value="#{transaccionesController.selected.IDCliente}" required="true" requiredMessage="#{myBundle.EditTransaccionesRequiredMessage_IDCliente}" converter="clienteConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clienteController.items}"
+                                           var="IDClienteItem"
+                                           itemValue="#{IDClienteItem}"
+                                           itemLabel="#{IDClienteItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionesLabel_IDTipoDocumento}" for="IDTipoDocumento" />
+                        <p:selectOneMenu id="IDTipoDocumento" value="#{transaccionesController.selected.IDTipoDocumento}" required="true" requiredMessage="#{myBundle.EditTransaccionesRequiredMessage_IDTipoDocumento}" converter="tipodocumentosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipodocumentosController.items}"
+                                           var="IDTipoDocumentoItem"
+                                           itemValue="#{IDTipoDocumentoItem}"
+                                           itemLabel="#{IDTipoDocumentoItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditTransaccionesLabel_IDTipoMovimiento}" for="IDTipoMovimiento" />
+                        <p:selectOneMenu id="IDTipoMovimiento" value="#{transaccionesController.selected.IDTipoMovimiento}" required="true" requiredMessage="#{myBundle.EditTransaccionesRequiredMessage_IDTipoMovimiento}" converter="tipomovimientosConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipomovimientosController.items}"
+                                           var="IDTipoMovimientoItem"
+                                           itemValue="#{IDTipoMovimientoItem}"
+                                           itemLabel="#{IDTipoMovimientoItem.id.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{transaccionesController.save}" value="#{myBundle.Save}" update="display,:TransaccionesListForm:datalist,:TransaccionesListForm:TransaccionesDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TransaccionesEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('TransaccionesEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

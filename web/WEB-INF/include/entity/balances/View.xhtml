@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BalancesViewDlg" widgetVar="BalancesViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewBalancesTitle}" closeOnEscape="true">
+
+            <h:form id="BalancesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{balancesController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewBalancesLabel_id}"/>
+                        <h:outputText value="#{balancesController.selected.id}" title="#{myBundle.ViewBalancesTitle_id}"/>
+
+                        <h:outputText value="#{myBundle.ViewBalancesLabel_fechaCorte}"/>
+                        <h:outputText value="#{balancesController.selected.fechaCorte}" title="#{myBundle.ViewBalancesTitle_fechaCorte}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewBalancesLabel_promedioSaldo}"/>
+                        <h:outputText value="#{balancesController.selected.promedioSaldo}" title="#{myBundle.ViewBalancesTitle_promedioSaldo}"/>
+
+                        <h:outputText value="#{myBundle.ViewBalancesLabel_monto}"/>
+                        <h:outputText value="#{balancesController.selected.monto}" title="#{myBundle.ViewBalancesTitle_monto}"/>
+
+                        <h:outputText value="#{myBundle.ViewBalancesLabel_IDCliente}"/>
+                        <h:outputText value="#{balancesController.selected.IDCliente.id}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('BalancesViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
